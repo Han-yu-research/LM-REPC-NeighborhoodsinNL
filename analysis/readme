@@ -1,0 +1,251 @@
+# Analysis Workflow
+
+This folder contains the main analysis script used to prepare the final modelling dataset, run diagnostic checks, and estimate the OLS regression model.
+
+## Script
+
+```text
+analysis_OLS.py
+```
+
+## Purpose
+
+The script combines the processed energy/building dataset with the landscape metrics dataset, cleans the merged data, prepares the final modelling table, checks multicollinearity, and runs OLS regression models.
+
+## Input files
+
+The script uses the following input files:
+
+```text
+output/neighborhoods_energy_building_characteristics_merged_more.csv
+output/form_merged_green_cleaned.csv
+data/main_buurten selection.shp
+data/kwb-2022.xlsx
+```
+
+The first file contains the processed energy and building characteristics.
+The second file contains the cleaned landscape metrics generated from the FRAGSTATS workflow.
+
+## Main workflow
+
+### 1. Merge energy and landscape data
+
+The script merges the processed energy/building dataset and the landscape metrics dataset using `buurtcode`.
+
+**Output:**
+
+```text
+output/neighborhoods_form_energy_merged.csv
+```
+
+---
+
+### 2. Select variables
+
+A set of landscape, building, demographic, and energy variables is selected for further analysis.
+
+**Output:**
+
+```text
+output/neighborhoods_form_energy_merged_selected.csv
+```
+
+---
+
+### 3. Summary statistics
+
+The script calculates summary statistics for the selected variables, including:
+
+* count
+* mean
+* median
+* minimum
+* maximum
+
+**Output:**
+
+```text
+output/neighborhoods_form_energy_merged_selected_summary.csv
+```
+
+---
+
+### 4. Data cleaning
+
+Missing values are cleaned.
+
+For `PLAND_*` variables, missing values are filled with 0, because the absence of a land-cover class is interpreted as 0% coverage.
+
+Rows with missing values in key modelling variables are removed.
+
+**Outputs:**
+
+```text
+model/form_energy_final_cleaned.csv
+model/removed_rows_final.csv
+```
+
+---
+
+### 5. Filter shapefile
+
+The neighborhood shapefile is filtered to keep only the neighborhoods retained in the cleaned modelling dataset.
+
+**Output:**
+
+```text
+shp/{number}_filtered_neighborhood_boundariesx.shp
+```
+
+---
+
+### 6. Rename variables
+
+Several variables are renamed for clearer interpretation in the modelling stage.
+
+Examples:
+
+```text
+bev_dich   → pop_density
+p_bjj2k    → pre2000_pc
+p_ink_hi   → inc_hi_pc
+p_1gezw    → SF_pc
+bld_A_pct  → Aplus_pc
+g_hhgro    → hh_size
+```
+
+**Output:**
+
+```text
+model/form_energy_final_cleaned_renamed.csv
+```
+
+---
+
+### 7. Correlation and VIF diagnostics
+
+The script calculates Spearman correlations and VIF values before and after removing `PLAND_built`.
+
+This step is used to evaluate whether `PLAND_built` introduces multicollinearity with other landscape variables.
+
+**Outputs:**
+
+```text
+model/spearman_corr_with_PLAND_built.csv
+model/spearman_corr_without_PLAND_built.csv
+model/vif_with_PLAND_built.csv
+model/vif_without_PLAND_built.csv
+model/vif_comparison_with_without_PLAND_built.csv
+model/correlation_of_PLAND_built_with_other_variables.csv
+```
+
+Correlation heatmaps are also saved:
+
+```text
+figures/spearman_heatmap_with_PLAND_built.png
+figures/spearman_heatmap_without_PLAND_built.png
+```
+
+---
+
+### 8. OLS regression
+
+The OLS model uses the logarithm of per-capita energy consumption intensity as the dependent variable:
+
+```text
+log(ec_inten_percapita)
+```
+
+The independent variables are standardized before modelling.
+
+`PLAND_built` is excluded from the final OLS model because of multicollinearity concerns.
+
+**Outputs:**
+
+```text
+model/ols_results_exclude_PLAND_built.csv
+model/ols_summary_exclude_PLAND_built.txt
+```
+
+---
+
+### 9. Supplementary data checks
+
+The script also includes several supplementary checks based on `kwb-2022.xlsx`, including:
+
+* filtering KWB records by final selected neighborhoods
+* checking area distribution using `a_lan_ha`
+* checking population distribution using `a_inw`
+* calculating population coverage of the filtered neighborhoods
+* counting neighborhoods by `ste_mvs` urbanity level
+
+**Outputs:**
+
+```text
+output/filtered_kwb_2022.xlsx
+model/kwb_area_population_threshold_summary.csv
+model/kwb_area_population_percentile_summary.csv
+model/filtered_kwb_population_coverage.csv
+model/filtered_kwb_ste_mvs_counts.csv
+```
+
+---
+
+## Output folders
+
+The script automatically creates the following folders if they do not already exist:
+
+```text
+data/
+output/
+weights/
+src/
+shp/
+model/
+figures/
+```
+
+---
+
+## Dependencies
+
+Required Python packages:
+
+```text
+pandas
+numpy
+geopandas
+matplotlib
+seaborn
+statsmodels
+scikit-learn
+```
+
+---
+
+## Workflow order
+
+This analysis depends on outputs generated from previous steps:
+
+1. `energy.py`
+2. `landscape.py`
+3. FRAGSTATS processing
+4. `analysis_OLS.py`
+
+The script should therefore be run only after the energy and landscape processing steps are completed.
+
+---
+
+## How to run
+
+From the project root directory:
+
+```bash
+python analysis/analysis_OLS.py
+```
+
+Or, if the script is stored directly in the root directory:
+
+```bash
+python analysis_OLS.py
+```
