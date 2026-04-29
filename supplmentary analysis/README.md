@@ -34,7 +34,7 @@ Path: shp/10580_filtered_neighborhood_boundariesx.shp
 
 ### 3. Winter LST raster data
 
-The full LST raster was generated using code:
+The full LST raster was generated using code: `2022_winter_LST_updated.ipynb`
 
 ```text
 data/NL_LST_2022_winter_m_3.tif
