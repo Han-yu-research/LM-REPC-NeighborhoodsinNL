@@ -171,12 +171,3 @@ Fragstats is also required for calculating landscape metrics.
 ```bash
 python main_landscape_updated.ipynb
 ```
-
-## Notes
-
-The script uses the current working directory as the project root:
-
-```python
-BASE_DIR = os.getcwd()
-```
-
