@@ -1,85 +1,75 @@
-# LM-REPC-NeighborhoodsinNL
-Here is the data for the paper: Measuring the Impact of Urban Morphology on Residential Energy Consumption at the Neighborhood-level in the Netherlands 
-# Urban Morphology and Residential Energy Consumption Analysis
-This repository contains the full data processing and analysis workflow for examining the relationship between urban morphology indicators and residential energy consumption at the neighborhood level in the Netherlands.
+# Energy Module
 
-The workflow integrates building-level data, energy label data, neighborhood socio-economic data, and spatial boundary data to construct neighborhood-level analytical datasets for spatial econometric modeling.
+This module preprocesses residential energy, building, and neighborhood socio-economic data for the study.
 
----
-
-## Project Structure
-
-```text
-project/
-├── data/                  # Raw input data (download separately)
-├── output/                # Processed datasets
-├── weights/               # Spatial weights matrices
-├── src/                   # Source code
-├── shp/                   # Processed shapefiles
-├── main.py                # Main workflow script
-├── requirements.txt       # Python dependencies
-└── README.md
-```
+The workflow integrates building identity data, energy label records, and neighborhood statistics to generate neighborhood-level energy consumption indicators and part of the urban morphology variables (building characteristics and demographic indicators).
 
 ---
 
-## Data Sources
+## Input Data
 
 All raw datasets used in this study are publicly available from open-data platforms.
-Raw data are not included in this repository.
+
+Raw datasets are not included in this repository.  
 Please download the datasets below and place them in the `/data` directory.
+
+---
 
 ### 1. Building Identity Dataset
 
-Source: BAG data
-Dataset description: Building-level identity and neighborhood matching table
-Download link: https://data.3dbag.nl/v20250903/tile_index.fgb
+**Source:** BAG data  
+**Dataset description:** Building-level identity and neighborhood matching table  
+**Download link:** https://www.3dbag.nl/en/download  
 
-Required filename:"0106_building_indentity_neighborhoodsname.csv"
+**Required filename:**  
+`0106_building_indentity_neighborhoodsname.csv`
 
-Access date:/
+**Notes:**  
+This study uses the 2022 version of the building dataset.  
+The public download link only provides the latest available version.
 
-```text
-The version for this research is using the data from the year of 2022, however, from the link provided, you could only download the latest data.
-By importing the building data into GIS pro, using the function "identity" to match the buildings and neighborhood boundaries, and following the seclection process to remove the buildings on the edge split by the boundaries and export the table and save it as the above required filename.
+To reproduce the input file:
 
-```
+1. Download the BAG building dataset  
+2. Import the building footprint layer and neighborhood boundary layer into ArcGIS Pro  
+3. Perform the Identity tool to spatially match buildings with neighborhood boundaries  
+4. Remove edge-split buildings caused by boundary intersections  
+5. Export the resulting attribute table as:
+
+`0106_building_indentity_neighborhoodsname.csv`
 
 ---
 
 ### 2. Energy Label Dataset
 
-Source: Netherlands Enterprise Agency (RVO)
-Dataset description: Residential energy label records
-Download link: https://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/8dff9ab0-dc82-4143-866f-2c08450abf61
+**Source:** Netherlands Enterprise Agency (RVO)  
+**Dataset description:** Residential energy label records  
+**Download link:** https://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/8dff9ab0-dc82-4143-866f-2c08450abf61  
 
-Required filename:"1205_energy_label_full.csv"
+**Required filename:**  
+`1205_energy_label_full.csv`
 
-Access date:/
+**Notes:**  
+The dataset is provided as a WMS service.
 
-```text
-The data downloaded is in the format of WMS, which could be open in GIS pro, and we have the final data after exporting from the GIS pro.
-```
+To reproduce the input file:
+
+1. Load the WMS layer into ArcGIS Pro  
+2. Export the attribute table as CSV  
+3. Save it as:
+
+`1205_energy_label_full.csv`
 
 ---
 
 ### 3. Neighborhood Socio-economic Dataset
 
-Source: Statistics Netherlands (CBS)
-Dataset description: Neighborhood socio-economic indicators (2022)
-Download link:https://www.cbs.nl/nl-nl/maatwerk/2025/13/kerncijfers-wijken-en-buurten-2022
+**Source:** Statistics Netherlands (CBS)  
+**Dataset description:** Neighborhood socio-economic indicators and energy statistics (2022)  
+**Download link:** https://www.cbs.nl/nl-nl/maatwerk/2025/13/kerncijfers-wijken-en-buurten-2022  
 
-Required filename:
-
-```text
-kwb-2022.xlsx
-```
-
-Access date:
-
-```text
-/
-```
+**Required filename:**  
+`kwb-2022.xlsx`
 
 ---
 
@@ -87,232 +77,57 @@ Access date:
 
 The workflow consists of the following steps:
 
-### Step 1: Building Dataset Cleaning
-
-* Remove duplicate building records
-* Keep the record with the largest area
-* Remove records without neighborhood code
-
-Output:
-
-```text
-0106_building_indentity_neighborhoodsname_cleaned.csv
-0106_building_indentity_neighborhoodsname_cleaned_dropnancode.csv
-```
-
----
-
-### Step 2: Spatial Filtering
-
-* Filter neighborhood boundary shapefile based on valid neighborhood codes
-
-Output:
-
-```text
-*_filtered_neighborhood_boundaries.shp
-```
+1. Clean building identity data  
+2. Remove duplicated buildings  
+3. Remove missing neighborhood codes  
+4. Filter neighborhood shapefile  
+5. Process energy label data  
+6. Merge building and energy label data  
+7. Summarize building characteristics at neighborhood level  
+8. Clean socio-economic data  
+9. Calculate residential energy consumption  
+10. Merge energy and building data  
+11. Calculate urban morphology indicators (building characteristics and demographic indicators)
+12. Export final shapefile  
 
 ---
 
-### Step 3: Energy Label Processing
+## Main Outputs
 
-* Keep essential variables only
-* Remove duplicates
-* Standardize building identifiers
 
-Output:
+All outputs are saved in the `output/` and `shp/` folders.
 
-```text
-1205_energylabel_2022_slim.csv
-```
+Main output files:
 
----
+- `neighborhoods_summary_building_characteristics.csv`
+- `neighborhoods_energy_table.csv`
+- `neighborhoods_energy_building_characteristics_merged.csv`
+- `neighborhoods_energy_building_characteristics_merged_more.csv`
 
-### Step 4: Building-Energy Merge
+Final shapefile:
 
-* Merge building records with energy label data
-
-Output:
-
-```text
-energylabel_building_identity_neighborhoods.csv
-```
+- `*_filtered_neighborhood_boundaries_final.shp`
 
 ---
 
-### Step 5: Building Characteristics Aggregation
+## Requirements
 
-Compute neighborhood-level:
-
-* Building count
-* Ground area
-* Total floor area
-* Residential unit count
-* Share of high-efficiency buildings (A-label and above)
-
-Output:
-
-```text
-neighborhoods_summary_building_characteristics.csv
-```
-
----
-
-### Step 6: Socio-economic Data Processing
-
-* Filter neighborhood-level records
-* Select variables
-* Clean missing values
-
-Output:
-
-```text
-buurt_filtered_table_columns_cleaned.csv
-buurt_filtered_table_cleaned_selected.csv
-```
-
----
-
-### Step 7: Energy Consumption Estimation
-
-Compute:
-
-* Electricity consumption
-* Gas consumption
-* District heating consumption
-* Total energy consumption
-* Per capita energy consumption intensity
-
-Output:
-
-```text
-neighborhoods_energy_table.csv
-```
-
----
-
-### Step 8: Final Dataset Construction
-
-Merge:
-
-* Building characteristics
-* Socio-economic indicators
-* Energy consumption indicators
-
-Output:
-
-```text
-neighborhoods_energy_building_characteristics_merged.csv
-```
-
----
-
-### Step 9: Urban Morphology Indicators (Building Characteristics)
-
-Compute:
-
-* Building Density
-* Floor Area Ratio (FAR)
-* Open Space Ratio (OSR)
-* Housing Density
-* Average Floor Number
-* Building Intensity
-
-Output:
-
-```text
-neighborhoods_energy_building_characteristics_merged_more.csv
-```
-
----
-
-### Step 10: Final Spatial Boundary Export
-
-Export final spatial units for modeling.
-
-Output:
-
-```text
-*_filtered_neighborhood_boundaries_final.shp
-```
-
----
-
-## Installation
-
-Create a Python environment and install dependencies:
+Required packages:
 
 ```bash
-pip install -r requirements.txt
+pip install pandas numpy geopandas openpyxl
 ```
 
----
-
-## Dependencies
-
-Main Python packages:
-
-* pandas
-* numpy
-* geopandas
-
-Install manually if needed:
+## Run
 
 ```bash
-pip install pandas numpy geopandas
+python main_energy_updated.ipynb
 ```
 
----
+## Final Output
 
-## Running the Workflow
-
-Run the main script:
-
-```bash
-python main.py
-```
-
-The script will automatically:
-
-* create project directories
-* clean raw datasets
-* merge datasets
-* compute indicators
-* export final datasets
-
----
-
-## Output Files
-
-Main analytical outputs:
+The final dataset used for further analysis:
 
 ```text
-output/neighborhoods_summary_building_characteristics.csv
-output/neighborhoods_energy_table.csv
-output/neighborhoods_energy_building_characteristics_merged.csv
 output/neighborhoods_energy_building_characteristics_merged_more.csv
-shp/*_filtered_neighborhood_boundaries_final.shp
 ```
-
----
-
-## Reproducibility
-
-To reproduce the analysis:
-
-1. Download all raw datasets
-2. Place them in `/data`
-3. Install dependencies
-4. Run `main.py`
-
-All intermediate and final datasets will be automatically generated.
-
----
-
-## Citation
-
-If you use this code, please cite:
-
-[TO BE FILLED AFTER PUBLICATION]
-
----
