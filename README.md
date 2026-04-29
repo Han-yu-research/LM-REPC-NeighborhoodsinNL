@@ -13,12 +13,16 @@ Process and clean residential energy consumption data.
 **Input:** raw energy dataset
 **Output:** cleaned energy indicators
 
+---
+
 ### Step 2. Landscape metrics calculation (`main_landscape_updated.ipynb`)
 
 Calculate landscape metrics for neighborhood green spaces.
 
 **Input:** reclassified land-use map (main land-use types from LGN and main vegetation map from RIVM)
 **Output:** landscape metrics dataset
+
+---
 
 ### Step 3. Statistical analysis 
 
@@ -45,6 +49,8 @@ Calculate landscape metrics for neighborhood green spaces.
 `KNN4+8_updated.R`, run SDM (KNN=4/8) in R as comparisons
 
 `QUEEN_updated.R`, run SDM (QUEEN) in R as a comparison
+
+---
 
 ### Step 4. Supplementary analysis 
 
