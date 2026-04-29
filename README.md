@@ -55,4 +55,4 @@ The 2022 winter LST map is generated from code: `2022_winter_LST_updated.ipynb`
 
 ## How to run
 
-Every folder has their own README as instruction
+Each folder has their own README as the instruction
