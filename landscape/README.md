@@ -16,6 +16,8 @@ Please prepare the following files and place them in the `/data` directory.
 
 **Required filename:**  
 `main_buurten selection.shp`
+**Source:** BAG data
+**Download link:** https://www.3dbag.nl/en/download
 
 **Description:**  
 Neighborhood boundary shapefile used to clip raster data by neighborhood polygons.
