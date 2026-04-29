@@ -109,21 +109,10 @@ car
 ## Run Order
 
 ```text
-1. analysis_OLS.py
-2. sdm_analysis.R
-3. sdm_model_selection.R
-4. sdm_knn_robustness.R
-5. sdm_dropoff_analysis.R
-6. figure.py
-```
-
-## Run
-
-```bash
-python analysis/analysis_OLS.py
-Rscript analysis/sdm_analysis.R
-Rscript analysis/sdm_model_selection.R
-Rscript analysis/sdm_knn_robustness.R
-Rscript analysis/sdm_dropoff_analysis.R
-python analysis/figure.py
+1. main_analysis_updated.ipynb
+2. main_SDM_updated.R
+3. main_comparisons_updated.R
+4. KNN4+8_updated.R and Queen_updated.R
+5. main_matrix_AIC_updated.R
+6. main_figure_updated.ipynb
 ```
