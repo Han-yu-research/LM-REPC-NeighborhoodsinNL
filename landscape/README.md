@@ -21,8 +21,7 @@ Please prepare the following files and place them in the `/data` directory.
 
 **Download link:** https://www.3dbag.nl/en/download
 
-**Description:**  
-Neighborhood boundary shapefile used to clip raster data by neighborhood polygons.
+**Description:**  Neighborhood boundary shapefile used to clip raster data by neighborhood polygons.
 
 ---
 
@@ -31,8 +30,7 @@ Neighborhood boundary shapefile used to clip raster data by neighborhood polygon
 **Required filename:**  
 `Reclass_LGN22.tif`
 
-**Description:**  
-Reclassified LGN 2022 land-cover raster.
+**Description:**  Reclassified LGN 2022 land-cover raster.
 
 This raster is used to calculate main land-cover landscape metrics, including class-level and landscape-level metrics of water and built-up areas.
 
@@ -43,8 +41,7 @@ This raster is used to calculate main land-cover landscape metrics, including cl
 **Required filename:**  
 `Green_4+1.tif`
 
-**Description:**  
-Green-space classification raster.
+**Description:**  Green-space classification raster.
 
 This raster is used to calculate green-space composition and configuration metrics.
 
