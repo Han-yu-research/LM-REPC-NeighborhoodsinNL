@@ -58,8 +58,4 @@ The 2022 winter LST map is generated from code: `2022_winter_LST_updated.ipynb`
 
 ## How to run
 
-1. Run energy.py
-2. Run landscape.py
-3. Run analysis.py
-4. Run figure.py
-5. Run supplementary.py
+Every folder has their own README as instruction
