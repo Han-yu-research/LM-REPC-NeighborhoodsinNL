@@ -41,7 +41,7 @@ See folder `landscape`
 
 **Mainstream of analysis:**
 
-`main_SDM_updated.R`, estimates the Spatial Durbin Model (SDM) using a K-nearest neighbor spatial weights matrix with `k = 6`
+`main_SDM_updated.R`, estimates the Spatial Durbin Model (SDM) using a KNN spatial weights matrix with `k = 6`
 
 `main_comparisons_updated.R`, compares OLS, SAR, SEM, and SDM models to identify the most appropriate spatial model
 
@@ -52,7 +52,7 @@ See folder `landscape`
 
 `KNN4+8_updated.R`, estimates SDM models using KNN spatial weights with `k = 4` and `k = 8`
 
-`QUEEN_updated.R`, estimates the SDM using a queen contiguity spatial weights matrix
+`QUEEN_updated.R`, estimates the SDM using a `QUEEN` contiguity spatial weights matrix
 
 
 **Figure production:**
