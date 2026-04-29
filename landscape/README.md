@@ -14,8 +14,7 @@ Please prepare the following files and place them in the `/data` directory.
 
 ### 1. Neighborhood Boundary Shapefile
 
-**Required filename:**  
-`main_buurten selection.shp`
+**Required filename:**  `main_buurten selection.shp`
 
 **Source:** BAG data
 
@@ -27,8 +26,7 @@ Please prepare the following files and place them in the `/data` directory.
 
 ### 2. Reclassified LGN Land-cover Raster
 
-**Required filename:**  
-`Reclass_LGN22.tif`
+**Required filename:**  `Reclass_LGN22.tif`
 
 **Description:**  Reclassified LGN 2022 land-cover raster.
 
@@ -38,8 +36,7 @@ This raster is used to calculate main land-cover landscape metrics, including cl
 
 ### 3. Green-space Classification Raster
 
-**Required filename:**  
-`Green_4+1.tif`
+**Required filename:**  `Green_4+1.tif`
 
 **Description:**  Green-space classification raster.
 
