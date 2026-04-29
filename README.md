@@ -24,7 +24,7 @@ Calculate landscape metrics for neighborhood green spaces.
 
 **Model selection:**
 
-`main_comparisonss.R`, compare OLS，SAR/SEM, SDM to select the most proper model
+`main_comparisonss.R`, compare OLS, SAR/SEM, SDM to select the most proper model
 
 **Group priorities:**
 
@@ -52,9 +52,6 @@ Additional analysis of LST spearman correlation `main_addition_updated.ipynb`，
 
 The 2022 winter LST map is generated from code: `2022_winter_LST_updated.ipynb`
 
-## Data structure
-
-## Requirements
 
 ## How to run
 
